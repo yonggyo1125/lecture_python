@@ -495,3 +495,261 @@ python multistring.py
 ```
 
 - 문자열의 {0} 항목이 'five'라는 문자열로 바뀌었다.
+
+### 숫자 값을 가진 변수로 대입하기
+
+```python
+>>> number = 3
+>>> "I eat {0} apples".format(number)
+'I eat 3 apples'
+```
+
+### 2개 이상의 값 넣기
+
+```python
+>>> number = 10
+>>> day = "three"
+>> "I ate {0} apples. so I was sick for {1} days.".format(number, day)
+'I ate 10 apples. so I was sick for three days.'
+```
+- {0}은 format 함수의 첫 번째 입력값인 number, {1}은 format 함수의 두 번째 입력값인 day로 바뀐다.
+
+### 이름으로 넣기
+
+```python
+>>> "I ate {number} apples. so I was sick for {day} days.".format(number=10, day=3)
+'I ate 10 apples. so I was sick for 3 days.'
+```
+
+- {name} 형태를 사용할 경우, format 함수에는 반드시 name=value와 같은 형태의 입력값이 있어야 한다. 
+- 문자열의 {number}, {day}가 format 함수의 입력값인 number = 10, day = 3값으로 각각 바뀌는 것을 보여준다.
+
+### 인덱스와 이름을 혼용해서 넣기
+
+```python
+>>> "I ate {0} apples. so I was sick for {day} days.".format(10, day=3)
+'I ate 10 apples. so I was sick for 3 days.'
+```
+
+### 왼쪽 정렬
+
+```python
+>>> "{0:<10}".format("hi")
+'hi        '
+```
+
+- **:\<10** - 표현식을 사용하면 문자열을 왼쪽으로 정렬하고 문자열의 총 자릿수를 10으로 맞춘다.
+
+### 오른쪽 정렬
+
+```python
+>>> "{0:>10}".format("hi")
+'        hi'
+```
+- 오른쪽 정렬은 :\< 대신 :\>을 사용하면 된다.
+
+### 가운데 정렬
+
+```python
+>>> "{0:^10}".format("hi")
+'    hi    '
+```
+
+### 공백 채우기
+
+```python
+>>> "{0:=^10}".format("hi")
+'====hi===='
+>>> "{0:!<10}".format("hi")
+'hi!!!!!!!!'
+```
+
+### 소수점 표현하기
+
+```python 
+>>> y = 3.42134234
+>>> "{0:0.4f}".format(y)
+'3.4213'
+```
+
+```python
+>>> "{0:10.4f}".format(y)
+'    3.4213'
+```
+
+### { 또는 } 문자 표현하기
+
+```python
+>>> "{{ and }}".format()
+'{ and }'
+```
+
+## f 문자열 포매팅
+
+- 파이썬 3.6 버전 부터는 f문자열 포매팅 기능을 사용할 수 있다.  
+- 문자열 앞에 f 접두사를 붙이면 f문자열 포매팅 기능을 사용할 수 있다. 
+
+```python
+>>> name = '홍길동'
+>>> age = 30
+>>> f'나의 이름은 {name}입니다. 나이는 {age}입니다.'
+'나의 이름은 홍길동입니다. 나이는 30입니다.'
+```
+
+- f 문자열 포매팅은 표현식을 지원하기 때문에 다음과 같은 것도 가능
+
+```python
+>>> age = 30
+>>> f'나는 내년이면 {agre + 1}살이 된다.'
+'나는 내년이면 31살이 된다.'
+```
+
+- 딕셔너리는 f문자열 포매팅에서 다음과 같이 사용할 수 있다. 
+
+```python
+>>> d = {'name': '홍길동', 'age': 30}
+>>> f'나의 이름은 {d["name"]}입니다. 나이는 {d["age"]}입니다.'
+'나의 이름은 홍길동입니다. 나이는 30입니다.'
+```
+
+- 정렬 
+
+```python
+>>> f'{"hi":<10}'    # 왼쪽 정렬
+'hi        '
+>>> f'{"hi":>10}'    # 오른쪽 정렬
+'        hi'
+>>> f'{"hi":^10}'   # 가운데 정렬
+'    hi    '
+```
+
+- 공백 채우기
+
+```python
+>>> f'{"hi":=^10}'   # 가운데 정렬하고 '='로 공백 채우기
+'====hi===='
+>>> f'{"hi":!<10}'   # 왼쪽 정렬하고 '!'로 공백 채우기
+'hi!!!!!!!!'
+```
+
+- 소수점
+
+```python
+>>> y = 3.42134234
+>>> f'{y:0.4f}'   # 소수점 4자리까지만 표현
+'3.4123'
+>>> f'{y:10.4f}'  # 소수점 4자리까지만 표현하고 총 자릿수를 '10'으로 맞춤.
+```
+
+- f 문자열에서 {}를 문자 그대로 표시하려면 다음과 같이 2개를 동시에 사용해야 한다.
+
+```python
+>>> f'{{ and }}'
+'{ and }'
+```
+
+## 문자열 관련 함수들 
+- 문자열 내장 함수
+- 내장 함수를 사용하려면 문자열 변수 이름 뒤에 '.'을 붙인 후 함수 이름을 써준다. 
+
+### 문자 개수 세기 - count
+
+```python
+>>> a = "hobby"
+>>> a.count('b')
+2
+```
+
+### 위치 알려 주기 1 - find
+
+```python
+>>> a = "Python is the best choice"
+>>> a.find('b')  # 문자열에서 b가 처음 나온 위치
+14 
+>>> a.find('k')  # 찾는 문자나 문자열이 존재하지 않는다면 -1 반환
+-1
+```
+
+### 위치 알려 주기 2 - index
+
+```python
+>>> a = "Life is too short"
+>>> a.index('t')
+8
+>>> a.index('k')   # k가 없으므로 오류 발생
+```
+
+- find 함수와 다른 점은 문자열 안에 존재하지 않는 문자를 찾으면 오류가 발생한다는 것
+
+### 문자열 삽입 - join
+
+```python
+>>> ",".join('abcd')
+'a,b,c,d'
+```
+
+- join 함수는 문자열뿐만 아니라 리스트나 튜플도 입력으로 사용할 수 있다. 
+- join 함수의 입력으로 리스트를 사용한 예
+
+```python
+>>> ",".join(['a', 'b', 'c', 'd'])
+'a,b,c,d'
+```
+
+### 소문자를 대문자로 바꾸기 - upper
+
+```python
+>>> a = "hi"
+>>> a.upper()
+'HI'
+```
+
+### 대문자를 소문자로 바꾸기 - lower
+
+```python
+>>> a = "HI"
+>>> a.lower()
+'hi'
+```
+
+### 왼쪽 공백 지우기 - lstrip
+
+```python
+>>> a = " hi "
+>>> a.lstrip()
+'hi '
+```
+
+### 오른쪽 공백 지우기 - rstrip
+
+```python
+>>> a = " hi "
+>>> a.rstrip()
+' hi'
+```
+
+### 양쪽 공백 지우기 - strip
+
+```python
+>>> a = " hi "
+>>> a.strip()
+'hi'
+```
+
+### 문자열 바꾸기 - replace
+
+```python
+>>> a = "Life is too short"
+>>> a.replace("Life", "Your leg")
+'Your leg is too short'
+```
+
+### 문자열 나누기 - split
+
+```python
+>>> a = "Life is too short"
+>>> a.split()   # 공백을 기준으로 문자열 나눔
+['Life', 'is', 'too', 'short']
+>>> b = "a:b:c:d"
+>>> b.split(':')  # :를 기준으로 문자열 나눔
+```
