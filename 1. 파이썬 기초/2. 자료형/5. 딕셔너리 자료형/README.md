@@ -157,3 +157,96 @@ TypeError: unhashable type: 'list'
 - Value에는 변하는 값이든, 변하지 않는 값이든 아무 값이나 넣을 수 있다.
 
 ## 딕셔너리 관련 함수
+
+### Key 리스트 만들기 - keys
+
+```python
+>>> a = {'name': 'pey', 'phone': '010-9999-1234', 'birth': '1118'}
+>>> a.keys()
+dict_keys(['name', 'phone', 'birth'])
+```
+
+- a.keys()는 딕셔너리 a의 Key만을 모아 dict_keys 객체를 리턴한다.
+- dict_keys 객체는 다음과 같이 사용할 수 있다. 리스트를 사용하는 것과 별 차이는 없지만, 리스트 고유의 append, insert, pop, remove, sort 함수는 수행할 수 없다.
+
+```python
+>>> for k in a.keys():
+...    print(k)
+...
+name
+phone
+birth
+```
+
+- dict_keys 객체를 리스트로 변환하려면 다음과 같이 하면 된다.
+
+```python
+>>> list(a.keys())
+['name', 'phone', 'birth']
+```
+
+- Value 리스트 만들기 - values
+
+```python
+>>> a.values()
+dict_values(['pey', '010-9999-1234', '1118'])
+```
+
+- Key, Value 쌍 얻기 - items
+
+```python
+>>> a.items()
+dict_items([('name', 'pey'), ('phone', '010-9999-1234'), ('birth', '1118')])
+```
+
+- Key: Value 쌍 모두 지우기 - clear
+
+```python
+>>> a.clear()
+>>> a
+{}
+```
+
+- clear 함수는 딕셔너리 안의 모든 요소를 삭제한다.
+
+### Key로 Value 얻기 - get
+
+```python
+>>> a = {'name': 'pey', 'phone': '010-9999-1234', 'birth': '1118'}
+>>> a.get('name')
+'pey'
+>>> a.get('phone')
+'010-9999-1234'
+```
+
+- get(x) 함수는 x라는 Key에 대응되는 Value를 리턴한다. 앞에서 살펴보았듯이 a.get('name')은 a\['name'\]을 사용했을 때와 동일한 결괏값을 리턴한다.
+- a\['nokey'\]처럼 딕셔너리에 존재하지 않는 키로 값을 가져오려고 할 경우, a\['nokey'\] 방식은 오류를 발생시키고 a.get('nokey') 방식은 None을 리턴한다는 차이가 있다. 
+
+```python
+>>> a = {'name':'pey', 'phone':'010-9999-1234', 'birth': '1118'}
+>>> print(a.get('nokey'))
+None
+>>> print(a['nokey’])
+Traceback (most recent call last):
+File "<stdin>", line 1, in <module>
+KeyError: 'nokey'
+```
+
+- 딕셔너리 안에 찾으려는 Key가 없을 경우, 미리 정해 둔 디폴트 값을 대신 가져오게 하고 싶을 때는 get(x, '디폴트 값')을 사용하면 편리하다.
+
+```python
+>>> a.get('nokey', 'foo')
+'foo'
+```
+
+- 딕셔너리 a에는 'nokey'에 해당하는 Key가 없다. 따라서 디폴트 값인 'foo'를 리턴한다.
+
+### 해당 Key가 딕셔너리 안에 있는지 조사하기 - in
+
+```python
+>>> a = {'name':'pey', 'phone':'010-9999-1234', 'birth': '1118'}
+>>> 'name' in a
+True
+>>> 'email' in a
+False
+```
