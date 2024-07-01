@@ -169,3 +169,111 @@ Hi
 
 ## 매개변수를 지정하여 호출하기
 - 함수를 호출할 때 매개변수를 지정할 수도 있다.
+
+```python
+>>> def sub(a, b):
+...     return a - b
+```
+
+- 다음과 같이 매개변수를 지정하여 사용할 수 있다.
+
+```python
+>>> result = sub(a=7, b=3)  # a에 7, b에 3을 전달
+>>> print(result)
+4
+```
+
+- 매개변수를 지정하면 다음과 같이 순서에 상관없이 사용할 수 있다는 장점이 있다.
+
+```python
+>>> result = sub(b=5, a=3)  # b에 5, a에 3을 전달
+>>> print(result)
+-2
+```
+
+## 입력값이 몇 개가 될지 모를 때는 어떻게 해야 할까?
+
+```python
+def 함수_이름(*매개변수):
+    수행할_문장
+    ...
+```
+
+- 일반적으로 볼 수 있는 함수 형태에서 괄호 안의 매개변수 부분이 <code>*매개변수</code>로 바뀌었다.
+
+### 여러 개의 입력값을 받는 함수 만들기
+
+- 여러 개의 입력값을 모두 더하는 함수를 직접 만들어 보자.
+
+```python
+>>> def add_many(*args): 
+...     result = 0 
+...     for i in args: 
+...         result = result + i   # *args에 입력받은 모든 값을 더한다.
+...     return result 
+```
+
+- 위에서 만든 add_many 함수는 입력값이 몇 개이든 상관없다. <code>*args</code>처럼 매개변수 이름 앞에 *을 붙이면 입력값을 전부 모아 튜플로 만들어 주기 때문이다.
+- 여기에서 <code>*args</code>는 임의로 정한 변수 이름이다. <code>*pey</code>, <code>*python</code>처럼 아무 이름이나 써도 된다.
+
+> args는 인수를 뜻하는 영어 단어 arguments의 약자이며 관례적으로 자주 사용한다.
+
+- 작성한 add_many 함수를 다음과 같이 사용해 보자.
+
+```python
+>>> result = add_many(1,2,3)
+>>> print(result)
+6
+>>> result = add_many(1,2,3,4,5,6,7,8,9,10)
+>>> print(result)
+55
+```
+
+- *arg와 다른 매개변수를 함께 사용하는 예
+
+```python
+>>> def add_mul(choice, *args): 
+...     if choice == "add":   # 매개변수 choice에 "add"를 입력받았을 때
+...         result = 0 
+...         for i in args: 
+...             result = result + i 
+...     elif choice == "mul":   # 매개변수 choice에 "mul"을 입력받았을 때
+...         result = 1 
+...         for i in args: 
+...             result = result * i 
+...     return result
+```
+
+- 여러 개의 입력값을 의미하는 <code>*args</code> 매개변수 앞에 choice 매개변수가 추가되어 있다.
+- 이 함수는 다음과 같이 사용할 수 있다.
+
+```python
+>>> result = add_mul('add', 1,2,3,4,5)
+>>> print(result)
+15
+>>> result = add_mul('mul', 1,2,3,4,5)
+>>> print(result)
+120
+```
+
+### 키워드 매개변수, kwargs
+
+- 키워드 매개변수를 사용할 때는 매개변수 앞에 별 2개(<code>**</code>)를 붙인다. 
+
+```python
+>>> def print_kwargs(**kwargs):
+...     print(kwargs)
+```
+
+- print_kwargs는 입력받은 매개변수 kwargs를 출력하는 단순한 함수이다.
+
+```python
+>>> print_kwargs(a=1)
+{'a': 1}
+>>> print_kwargs(name='foo', age=3)
+{'age': 3, 'name': 'foo'}
+```
+
+- <code>\**kwargs</code>처럼 매개변수 이름 앞에 <code>\**</code>을 붙이면 매개변수 kwargs는 딕셔너리가 되고 모든 <code>Key=Value</code> 형태의 입력값이 그 딕셔너리에 저장된다는 것을 알 수 있다.
+
+## 함수의 리턴값은 언제나 하나이다
