@@ -277,3 +277,74 @@ def 함수_이름(*매개변수):
 - <code>\**kwargs</code>처럼 매개변수 이름 앞에 <code>\**</code>을 붙이면 매개변수 kwargs는 딕셔너리가 되고 모든 <code>Key=Value</code> 형태의 입력값이 그 딕셔너리에 저장된다는 것을 알 수 있다.
 
 ## 함수의 리턴값은 언제나 하나이다
+
+```python
+>>> def add_and_mul(a,b): 
+...     return a+b, a*b
+```
+
+- 이 함수를 다음과 같이 호출하면 어떻게 될까?
+
+```python
+>>> result = add_and_mul(3,4)
+```
+
+- add_and_mul 함수의 리턴값 <code>a+b</code>와 <code>a\*b</code>는 튜플값 하나인 (a+b, a*b)로 리턴된다.
+- 따라서 result 변수는 다음과 같은 값을 가지게 된다
+
+```python
+result = (7, 12)
+```
+
+- 이 하나의 튜플 값을 2개의 값으로 분리하여 받고 싶다면 함수를 다음과 같이 호출하면 된다.
+
+```python
+>>> result1, result2 = add_and_mul(3, 4)
+```
+
+- 이렇게 호출하면 <code>result1, result2 = (7, 12)</code>가 되어 result1은 7, result2는 12가 된다.
+
+- 또 다음과 같은 의문이 생길 수도 있다.
+
+```python
+>>> def add_and_mul(a,b): 
+...     return a+b 
+...     return a*b
+```
+
+```python
+>>> result = add_and_mul(2, 3)
+>>> print(result)
+5
+```
+
+- <code>add_and_mul(2, 3)</code>의 리턴값은 5 하나뿐이다. 두 번째 return 문인 <code>return a * b</code>는 실행되지 않았다는 뜻이다. 
+- 즉, 함수는 return 문을 만나는 순간, 리턴값을 돌려 준 다음 함수를 빠져나가게 된다.
+- 따라서 이 함수는 다음과 완전히 동일하다.
+
+```python
+>>> def add_and_mul(a,b): 
+...     return a+b 
+```
+
+- 즉 함수는 return문을 만나는 순간 결괏값을 돌려준 다음 함수를 빠져나가게 된다.
+
+### return의 또 다른 쓰임새
+
+- 특별한 상황일 때 함수를 빠져나가고 싶다면 return을 단독으로 써서 함수를 즉시 빠져나갈 수 있다. 다음 예를 살펴보자.
+
+```python
+>>> def say_nick(nick): 
+...     if nick == "바보": 
+...         return 
+...     print("나의 별명은 %s 입니다." % nick)
+```
+
+- 만약 입력값으로 '바보'라는 값이 들어오면 문자열을 출력하지 않고 함수를 즉시 빠져나간다.
+
+```python
+>>> say_nick('야호')
+나의 별명은 야호입니다.
+>>> say_nick('바보')
+>>>
+```
