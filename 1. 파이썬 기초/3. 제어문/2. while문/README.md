@@ -189,3 +189,15 @@ while True:
     수행할_문장2
     ...
 ```
+- while 문의 조건문이 True이므로 항상 참이 된다. 따라서 while 문 안에 있는 문장들은 무한히 수행될 것이다.
+- 무한 루프의 예
+
+```python
+>>> while True:
+...     print("Ctrl+C를 눌러야 while문을 빠져나갈 수 있습니다.")
+...
+Ctrl+C를 눌러야 while문을 빠져나갈 수 있습니다.
+Ctrl+C를 눌러야 while문을 빠져나갈 수 있습니다.
+Ctrl+C를 눌러야 while문을 빠져나갈 수 있습니다.
+....
+```
