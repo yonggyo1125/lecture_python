@@ -362,3 +362,14 @@ def say_myself(name, age, man=True):
         print("여자입니다.")
 ```
 
+- 위 함수를 보면 매개변수가 <code>name, age, man=True</code>이다.
+- <code>man=True</code>처럼 매개변수에 미리 값을 넣어 준 것이다. 이것이 바로 함수의 매개변수에 초깃값을 설정하는 방법이다.
+- say_myself 함수는 다음처럼 2가지 방법으로 사용할 수 있다.
+
+```python
+say_myself("이이름", 27)
+```
+
+```python
+say_myself("이이름", 27, True)
+```
