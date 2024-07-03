@@ -37,3 +37,86 @@ f.close()
 > 파일 경로와 슬래시(<code>/</code>)
 > 
 > 파이썬 코드에서 파일 경로를 표시할 때 <code>"C:/doit/새파일.txt"</code>처럼 슬래시(/)를 사용할 수 있다. 만약 역슬래시(\)를 사용한다면 <code>"C:\\doit\\새파일.txt"</code>처럼 역슬래시를 2개 사용하거나 <code>r"C:\doit\새파일.txt"</code>와 같이 문자열 앞에 r 문자(raw string)를 덧붙여 사용해야 한다. 왜냐하면 <code>"C:\note\test.txt"</code>처럼 파일 경로에 \n과 같은 이스케이프 문자가 있을 경우, 줄바꿈 문자로 해석되어 의도했던 파일 경로와 달라지기 때문이다.
+
+
+## 파일을 쓰기 모드로 열어 내용 쓰기
+
+```python
+# write_data.py
+f = open("C:/doit/새파일.txt", 'w')
+for i in range(1, 11):
+    data = "%d번째 줄입니다.\n" % i
+    f.write(data)
+f.close()
+```
+
+- 명령 프롬프트 창에서 예제를 실행해 보자.
+
+```python
+C:\Users> cd C:\doit
+C:\doit> python write_data.py
+C:\doit>
+```
+- 모니터 화면에 출력될 내용이 고스란히 파일에 들어 있는 것을 확인할 수 있다.
+
+## 파일을 읽는 여러 가지 방법
+
+### readline 함수 이용하기
+
+```python
+# readline_test.py
+f = open("C:/doit/새파일.txt", 'r')
+line = f.readline()
+print(line)
+f.close()
+```
+
+- ‘새파일.txt’ 파일을 읽기 모드로 연 후 readline()을 사용해서 파일의 첫 번째 줄을 읽어 출력하는 예제
+- 위 프로그램을 실행했을 때 새파일.txt 파일의 가장 첫 번째 줄이 화면에 출력될 것이다.
+
+```
+1번째 줄입니다.
+```
+
+- 만약 모든 줄을 읽어 화면에 출력하고 싶다면 다음과 같이 작성
+
+```python
+# readline_all.py
+f = open("C:/doit/새파일.txt", 'r')
+while True:
+    line = f.readline()
+    if not line: break
+    print(line)
+f.close()
+```
+
+- <code>while True:</code> 무한 루프 안에서 <code>f.readline()</code>을 사용해 파일을 계속 한 줄씩 읽어 들인다. 
+- 더 이상 읽을 줄이 없으면 break를 수행한다(readline()은 더 이상 읽을 줄이 없을 경우, 빈 문자열('')을 리턴한다).
+
+> 한 줄씩 읽어 출력할 때 줄 끝에 <code>\n</code> 문자가 있으므로 빈 줄도 같이 출력된다.
+
+### readlines 함수 사용하기
+
+```python
+# readlines.py
+f = open("C:/doit/새파일.txt", 'r')
+lines = f.readlines()
+for line in lines:
+    print(line)
+f.close()
+```
+
+- readlines 함수는 파일의 모든 줄을 읽어서 각각의 줄을 요소로 가지는 리스트를 리턴한다. 
+
+### 줄 바꿈(\n) 문자 제거하기
+
+- 파일을 읽을 때 줄 끝의 줄 바꿈(<code>\n</code>) 문자를 제거하고 사용해야 할 경우가 많다. 다음처럼 strip 함수를 사용하면 줄 바꿈 문자를 제거할 수 있다.
+
+```python
+f = open("C:/doit/새파일.txt", 'r')
+lines = f.readlines()
+for line in lines:
+    line = line.strip()  # 줄 끝의 줄 바꿈 문자를 제거한다.
+    print(line)
+f.close()
+```
