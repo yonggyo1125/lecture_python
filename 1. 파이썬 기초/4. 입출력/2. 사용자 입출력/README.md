@@ -48,5 +48,43 @@ input("안내_문구")
 > print 문의 용도는 데이터를 출력하는 것
 
 ```python
-
+>>> a = 123
+>>> print(a)
+123
+>>> a = "Python"
+>>> print(a)
+Python
+>>> a = [1, 2, 3]
+>>> print(a)
+[1, 2, 3]
 ```
+
+### 큰따옴표로 둘러싸인 문자열은 + 연산과 동일하다
+
+```python
+>>> print("life" "is" "too short")  # 1번
+lifeistoo short
+>>> print("life"+"is"+"too short")  # 2번
+lifeistoo short
+```
+- 따옴표로 둘러싸인 문자열을 연속해서 쓰면 + 연산을 한 것과 같다.
+
+## 문자열 띄어쓰기는 쉼표로 한다
+
+```python
+>>> print("life", "is", "too short")
+life is too short
+```
+
+## 한 줄에 결괏값 출력하기
+
+- 한 줄에 결괏값을 계속 이어서 출력하려면 매개변수 end를 사용해 끝 문자를 지정해야 한다.
+
+```python
+>>> for i in range(10):
+...     print(i, end=' ')
+...
+0 1 2 3 4 5 6 7 8 9 >>>
+```
+
+- end 매개변수의 초깃값은 줄바꿈(\n) 문자이다.
