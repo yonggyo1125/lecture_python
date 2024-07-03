@@ -402,5 +402,95 @@ say_myself("이이름", 27, False)
 ## 함수 안에서 선언한 변수의 효력 범위
 
 ```python
+# vartest.py
+a = 1
+def vartest(a):
+    a = a +1
+
+vartest(a)
+print(a)
+```
+
+- 먼저 a라는 변수를 생성하고 1을 대입했다. 그리고 입력으로 들어온 값에 1을 더해 주고 결괏값은 리턴하지 않는 vartest 함수를 선언했다. 그리고 vartest 함수에 입력값으로 a를 주었다. 마지막으로 a의 값을 print(a)로 출력했다.
+- vartest 함수에서 매개변수 a의 값에 1을 더했으므로 2가 출력될 것 같지만, 프로그램 소스를 작성해서 실행해 보면 결괏값은 1이 나온다. 
+- 그 이유는 함수 안에서 사용하는 매개변수는 함수 안에서만 사용하는 ‘함수만의 변수’이기 때문이다.
+- 즉, <code>def vartest(a)</code>에서 입력값을 전달받는 매개변수 a는 함수 안에서만 사용하는 변수일 뿐, 함수 밖의 변수 a와는 전혀 상관없다는 뜻이다.
+- 따라서 vartest 함수는 다음처럼 매개변수 이름을 hello로 바꾸어도 이전의 vartest 함수와 완전히 동일하게 동작한다.
+
+```python
+def vartest(hello):
+    hello = hello + 1
+```
+
+- 즉, 함수 안에서 사용하는 매개변수는 함수 밖의 변수 이름과는 전혀 상관없다는 뜻이다.
+
+```python
+# vartest_error.py
+def vartest(a):
+    a = a + 1
+
+vartest(3)
+print(a)
+```
+
+- vartest(3)을 수행하면 vartest 함수 안에서 a는 4가 되지만, 함수를 호출하고 난 후 print(a) 문장은 오류가 발생하게 된다.
+- 그 이유는 print(a)에서 사용한 a 변수는 어디에도 선언되지 않았기 때문이다. 
+- 즉, 함수 안에서 선언한 매개변수는 함수 안에서만 사용될 뿐, 함수 밖에서는 사용되지 않는다. 
+
+## 함수 안에서 함수 밖의 변수를 변경하는 방법
+
+### return 사용하기
+
+```python
+# vartest_return.py
+a = 1 
+def vartest(a): 
+    a = a +1 
+    return a
+
+a = vartest(a) 
+print(a)
+```
+
+- artest 함수는 입력으로 들어온 값에 1을 더한 값을 리턴하도록 변경했다. 따라서 <code>a = vartest(a)</code>라고 작성하면 a에는 vartest 함수의 리턴값이 대입된다.
+- vartest 함수 안의 a 매개변수는 함수 밖의 a와는 다른 것이다.
+
+### global 명령어 사용하기
+
+```python
+# vartest_global.py
+a = 1 
+def vartest(): 
+    global a 
+    a = a+1
+
+vartest() 
+print(a)
+```
+
+- global a 문장은 함수 안에서 함수 밖의 a 변수를 직접 사용하겠다는 뜻
+- 하지만 프로그래밍을 할 때 global 명령어는 사용하지 않는 것이 좋다. 함수는 독립적으로 존재하는 것이 좋기 때문이다.
+- 외부 변수에 종속적인 함수는 그다지 좋은 함수가 아니다. 따라서 되도록 global 명령어를 사용하는 이 방법은 피하고 첫 번째 방법을 사용하기를 권한다.
+
+## lambda 예약어
+
+- lambda는 함수를 생성할 때 사용하는 예약어로, def와 동일한 역할을 한다. 
+- 보통 함수를 한 줄로 간결하게 만들 때 사용한다. 
+- def를 사용해야 할 정도로 복잡하지 않거나 def를 사용할 수 없는 곳에 주로 쓰인다.
+
+### 사용법
 
 ```
+함수_이름 = lambda 매개변수1, 매개변수2, ... : 매개변수를_이용한_표현식
+```
+
+### 사용예
+
+```python
+>>> add = lambda a, b: a + b
+>>> result = add(3, 4)
+>>> print(result)
+7
+```
+
+> lambda로 만든 함수는 return 명령어가 없어도 표현식의 결괏값을 리턴한다.
