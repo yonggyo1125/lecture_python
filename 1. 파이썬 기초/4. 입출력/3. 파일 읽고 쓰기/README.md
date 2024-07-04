@@ -132,3 +132,49 @@ f.close()
 ```
 - <code>f.read()</code>는 파일의 내용 전체를 문자열로 리턴한다. 
 
+
+### 파일 객체를 for 문과 함께 사용하기
+
+```python
+# read_for.py
+f = open("C:/doit/새파일.txt", 'r')
+for line in f:
+    print(line)
+f.close()
+```
+
+## 파일에 새로운 내용 추가하기
+
+- 쓰기 모드('w')로 파일을 열 때 이미 존재하는 파일을 열면 그 파일의 내용이 모두 사라지게 된다. 
+- 하지만 원래 있던 값을 유지하면서 단지 새로운 값만 추가해야 할 경우도 있다. 이런 경우에는 파일을 추가 모드('a')로 열면 된다.  
+
+```python
+# add_data.py
+f = open("C:/doit/새파일.txt",'a')
+for i in range(11, 20):
+    data = "%d번째 줄입니다.\n" % i
+    f.write(data)
+f.close()
+```
+
+- 추가 모드로 파일을 열었기 때문에 새파일.txt 파일이 원래 가지고 있던 내용 바로 다음부터 결괏값을 적기 시작한다.
+
+## with 문과 함께 사용하기
+
+- 파일을 열면(open) 항상 닫아(close) 주어야 한다.
+
+```python
+f = open("foo.txt", 'w')
+f.write("Life is too short, you need python")
+f.close()
+```
+
+- 파이썬의 with문을 사용하면 이를 자동으로 처리할 수 있다.
+
+```python
+# file_with.py
+with open("foo.txt", "w") as f:
+    f.write("Life is too short, you need python")
+```
+
+- 위와 같이 with 문을 사용하면 with 블록(with 문에 속해 있는 문장)을 벗어나는 순간, 열린 파일 객체 f가 자동으로 닫힌다.
