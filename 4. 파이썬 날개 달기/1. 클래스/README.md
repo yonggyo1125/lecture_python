@@ -205,3 +205,4 @@ def setdata(self, first, second):   # 메서드의 매개변수
     self.first = first              # 메서드의 수행문
     self.second = second            # 메서드의 수행문
 ```
+
