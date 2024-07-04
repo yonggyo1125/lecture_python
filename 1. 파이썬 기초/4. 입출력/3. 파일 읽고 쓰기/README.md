@@ -120,3 +120,15 @@ for line in lines:
     print(line)
 f.close()
 ```
+
+### read 함수 사용하기
+
+```properties
+# read.py
+f = open("C:/doit/새파일.txt", 'r')
+data = f.read()
+print(data)
+f.close()
+```
+- <code>f.read()</code>는 파일의 내용 전체를 문자열로 리턴한다. 
+
