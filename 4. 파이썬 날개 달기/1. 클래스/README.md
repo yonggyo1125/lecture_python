@@ -206,3 +206,75 @@ def setdata(self, first, second):   # 메서드의 매개변수
     self.second = second            # 메서드의 수행문
 ```
 
+#### setdata 메서드의 매개변수
+
+-  setdata 메서드는 매개변수로 self, first, second 3개의 입력값을 받는다. 
+-  일반 함수와 달리, 메서드의 첫 번째 매개변수 self는 특별한 의미를 가진다.
+- 다음과 같이 a 객체를 만들고 a 객체를 통해 setdata 메서드를 호출해 보자.
+
+```python
+>>> a = FourCal()
+>>> a.setdata(4, 2)
+```
+
+> 객체를 이용해 클래스의 메서드를 호출하려면 a.setdata(4, 2)와 같이 도트(.) 연산자를 사용하면 된다.
+
+- setdata 메서드에는 self, first, second 총 3개의 매개변수가 필요한데 실제로는 <code>a.setdata(4, 2)</code>처럼 2개의 값만 전달했다.
+- <code>a.setdata(4, 2)</code>처럼 호출하면 setdata 메서드의 첫 번째 매개변수 self에는 setdata 메서드를 호출한 객체 a가 자동으로 전달되기 때문이다.
+- 파이썬 메서드의 첫 번째 매개변수 이름은 관례적으로 self를 사용한다. 
+- 객체를 호출할 때 호출한 객체 자신이 전달되기 때문에 self라는 이름을 사용한 것이다.
+- 메서드의 첫 번째 매개변수 self를 명시적으로 구현하는 것은 파이썬만의 독특한 특징이다. 
+
+#### 메서드를 호출하는 또 다른 방법
+
+- 잘 사용하지는 않지만, 다음과 같이 클래스를 이용해 메서드를 호출할 수도 있다.
+
+```python
+>>> a = FourCal()
+>>> FourCal.setdata(a, 4, 2)
+```
+
+- 위와 같이 ‘클래스명.메서드’ 형태로 호출할 때는 객체 a를 첫 번째 매개변수 self에 꼭 전달해야 한다.
+- 반면 다음처럼 ‘객체.메서드’ 형태로 호출할 때는 self를 반드시 생략해서 호출해야 한다.
+
+```python
+>>> a = FourCal()
+>>> a.setdata(4, 2)
+```
+
+#### setdata 메서드의 수행문
+
+```python
+def setdata(self, first, second):   # 메서드의 매개변수
+    self.first = first              # 메서드의 수행문
+    self.second = second            # 메서드의 수행문
+```
+
+- a.setdata(4, 2)처럼 호출하면 setdata 메서드의 매개변수 first, second에는 각각 값 4와 2가 전달되어 setdata 메서드의 수행문이 다음과 같이 해석된다.
+
+```python
+self.first = 4
+self.second = 2
+```
+
+- self는 전달된 객체 a이므로 다시 다음과 같이 해석된다.
+
+```python
+a.first = 4
+a.second = 2
+```
+
+- <code>a.first = 4</code>라는 문장이 수행되면 a 객체에 객체변수 first가 생성되고 4라는 값이 저장된다. 이와 마찬가지로 <code>a.second = 2</code>라는 문장이 수행되면 a 객체에 객체변수 second가 생성되고 2라는 값이 저장된다.
+
+> 객체에 생성되는 객체만의 변수를 ‘객체변수’ 또는 ‘속성’이라고 부른다.
+
+```python
+>>> a = FourCal()
+>>> a.setdata(4, 2)
+>>> a.first
+4
+>>> a.second
+2
+```
+
+- a 객체에 객체변수 first와 second가 생성된 것을 확인할 수 있다
