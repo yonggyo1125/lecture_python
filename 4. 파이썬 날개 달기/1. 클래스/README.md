@@ -300,3 +300,43 @@ a.second = 2
 >>> b.first
 3
 ```
+
+- 위와 같이 진행하면 b 객체의 객체변수 first에는 값 3이 저장된다는 것을 확인할 수 있었다. 
+- a는 원래 값인 4를 유지합니다.
+
+```python
+>>> a.first
+4
+```
+
+- a 객체의 first 값은 b 객체의 first 값에 영향받지 않고 원래 값을 유지하고 있다는 것을 확인할 수 있다. 
+- 클래스로 만든 객체의 객체변수는 다른 객체의 객체변수에 상관없이 독립적인 값을 유지한다.
+- 다음은 현재까지 완성된 FourCal 클래스이다.
+
+```python
+>>> class FourCal:
+...     def setdata(self, first, second):
+...         self.first = first
+...         self.second = second
+```
+
+### 더하기 기능 만들기
+
+- 2개의 숫자 값을 설정해 주었으므로 2개의 숫자를 더하는 기능을 방금 만든 클래스에 추가해 보자. 
+
+```python
+>>> class FourCal:
+...     def setdata(self, first, second):
+...         self.first = first
+...         self.second = second
+...     def add(self):
+...         result = self.first + self.second
+...         return result
+```
+
+```python
+>>> a = FourCal()
+>>> a.setdata(4, 2)
+>>> a.add()
+6
+```
