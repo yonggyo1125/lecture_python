@@ -277,4 +277,26 @@ a.second = 2
 2
 ```
 
-- a 객체에 객체변수 first와 second가 생성된 것을 확인할 수 있다
+- a 객체에 객체변수 first와 second가 생성된 것을 확인할 수 있다.
+- 이번에는 다음과 같이 a, b 객체를 만들어 보자.
+
+```python
+>>> a = FourCal()
+>>> b = FourCal()
+```
+
+- a 객체의 객체변수 first를 다음과 같이 생성한다.
+
+```python
+>>> a.setdata(4, 2)
+>>> a.first
+4
+```
+
+- b 객체의 객체변수 first를 다음과 같이 생성한다.
+
+```python
+>>> b.setdata(3, 7)
+>>> b.first
+3
+```
