@@ -413,3 +413,66 @@ result = 4 + 2
 >>> b.div()
 0.375
 ```
+
+## 생성자 
+
+```python
+>>> a = FourCal()
+>>> a.add()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 6, in add
+AttributeError: 'FourCal' object has no attribute 'first'
+```
+
+- FourCal 클래스의 인스턴스 a에 setdata 메서드를 수행하지 않고 add 메서드를 먼저 수행하면 ‘AttributeError: 'FourCal' object has no attribute 'first'’오류가 발생한다. 
+- setdata 메서드를 수행해야 객체 a의 객체변수 first와 second가 생성되기 때문이다.
+- 이렇게 객체에 first, second와 같은 초깃값을 설정해야 할 필요가 있을 때는 setdata와 같은 메서드를 호출하여 초깃값을 설정하기보다 생성자를 구현하는 것이 안전한 방법이다.
+- 생성자(constructor)란 객체가 생성될 때 자동으로 호출되는 메서드를 의미한다. 파이썬 메서드명으로 <code>__init__</code>를 사용하면 이 메서드는 생성자가 된다.
+- 다음과 같이 FourCal 클래스에 생성자를 추가해 보자.
+
+> <code>__init__</code> 메서드의 init 앞뒤로 붙은 __는 밑줄(_) 2개를 붙여 쓴 것이다.
+
+```python
+>>> class FourCal:
+...     def __init__(self, first, second):
+...         self.first = first
+...         self.second = second
+...     def setdata(self, first, second):
+...         self.first = first
+...         self.second = second
+...     def add(self):
+...         result = self.first + self.second
+...         return result
+...     def mul(self):
+...         result = self.first * self.second
+...         return result
+...     def sub(self):
+...         result = self.first - self.second
+...         return result
+...     def div(self):
+...         result = self.first / self.second
+...         return result
+...
+>>>
+```
+
+- 새롭게 추가된 생성자 <code>__init__</code> 메서드만 따로 떼어 내서 살펴보자.
+
+```python
+def __init__(self, first, second):
+    self.first = first
+    self.second = second
+```
+
+- <code>__init__</code> 메서드는 setdata 메서드와 이름만 다르고 모든 게 동일하다. 단, 메서드 이름을 <code>__init__</code>로 했기 때문에 생성자로 인식되어 객체가 생성되는 시점에 자동으로 호출된다는 차이가 있다.
+- 이제 다음처럼 a 객체를 생성해 보자.
+
+```python
+>>> a = FourCal()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: __init__() missing 2 required positional arguments: 'first' and 'second'
+```
+
+- <code>a = FourCal()</code>을 수행할 때 생성자 <code>__init__</code>가 호출되어 위와 같은 오류가 발생했다. 오류가 발생한 이유는 생성자의 매개변수 first와 second에 해당하는 값이 전달되지 않았기 때문이다.
