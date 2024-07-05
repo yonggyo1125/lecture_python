@@ -340,3 +340,30 @@ a.second = 2
 >>> a.add()
 6
 ```
+
+- a.add()라고 호출하면 add 메서드가 호출되어 값 6이 출력될 것이다. 어떤 과정을 거쳐 값 6이 출력되는지 add 메서드를 따로 떼어 내 자세히 살펴보자.
+
+```python
+def add(self):
+    result = self.first + self.second
+    return result
+```
+
+- add 메서드의 매개변수는 self, 리턴값은 result이다. 리턴값인 result를 계산하는 부분은 다음과 같다.
+
+```python
+result = self.first + self.second
+```
+
+- a.first와 a.second는 add 메서드가 호출되기 전에 <code>a.setdata(4, 2)</code> 문장에서 <code>a.first = 4, a.second = 2</code>로 설정된다. 따라서 위 문장은 다시 다음과 같이 해석된다.
+
+```python
+result = 4 + 2
+```
+
+- 따라서 다음과 같이 a.add()를 호출하면 6을 리턴한다.
+
+```python
+>>> a.add()
+6
+```
