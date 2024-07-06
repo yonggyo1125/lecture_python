@@ -281,3 +281,70 @@ very fast
 class MyError(Exception):
     pass
 ```
+
+- 별명을 출력하는 함수를 다음과 같이 작성해 보자.
+
+```python
+def say_nick(nick):
+    if nick == '바보':
+        raise MyError()
+    print(nick)
+```
+
+- 그리고 다음과 같이 say_nick 함수를 호출해 보자.
+
+```python
+say_nick("천사")
+say_nick("바보")
+```
+
+- 저장한 후 프로그램을 실행해 보면 다음과 같이 "천사"가 한 번 출력된 후 MyError가 발생한다.
+
+```python
+천사
+Traceback (most recent call last):
+  File "...", line 11, in <module>
+    say_nick("바보")
+  File "...", line 7, in say_nick
+    raise MyError()
+__main__.MyError
+```
+
+- 이번에는 예외 처리 기법을 사용하여 MyError 발생을 예외 처리해 보자.
+
+```python
+try:
+    say_nick("천사")
+    say_nick("바보")
+except MyError:
+    print("허용되지 않는 별명입니다.")
+```
+
+- 프로그램을 실행하면 다음과 같이 출력된다.
+
+```python
+천사
+허용되지 않는 별명입니다.
+```
+
+- 만약 오류 메시지를 사용하고 싶다면 다음처럼 예외 처리를 하면 된다.
+
+```python
+try:
+    say_nick("천사")
+    say_nick("바보")
+except MyError as e:
+    print(e)
+```
+
+- 하지만 프로그램을 실행해 보면 print(e)로 오류 메시지가 출력되지 않는 것을 확인할 수 있다. 
+- 오류 메시지를 출력했을 때 오류 메시지가 보이게 하려면 오류 클래스에 다음과 같은 <code>\_\_str\_\_</code> 메서드를 구현해야 한다. 
+- <code>\_\_str\_\_</code> 메서드는 print(e)처럼 오류 메시지를 print 문으로 출력할 경우에 호출되는 메서드이다.
+
+```python
+class MyError(Exception):
+    def __str__(self):
+        return "허용되지 않는 별명입니다."
+```
+
+- 프로그램을 다시 실행해 보면 "허용되지 않는 별명입니다."라는 오류 메시지가 출력되는 것을 확인할 수 있을 것이다.
