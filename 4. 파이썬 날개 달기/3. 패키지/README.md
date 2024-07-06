@@ -205,3 +205,83 @@ Initializing game ...
 >>> from game.graphic.render import render_test
 >>>
 ```
+
+## \_\_all\_\_
+
+- 이번에는 다음을 따라 해 보자.
+
+```python
+>>> from game.sound import *
+Initializing game ...
+>>> echo.echo_test()
+Traceback (most recent call last):
+    File "<stdin>", line 1, in <module>
+NameError: name 'echo' is not defined
+```
+
+- game.sound 패키지에서 모든 것(<code>*</code>)을 import했으므로 echo 모듈을 사용할 수 있어야 할 것 같은데, echo라는 이름이 정의되지 않았다는 오류가 발생했다.
+- 이렇게 특정 디렉터리의 모듈을 <code>*</code>를 사용하여 import할 때는 다음과 같이 해당 디렉터리의 <code>\_\_init\_\_.py</code> 파일에 <code>\_\_all\_\_</code> 변수를 설정하고 import할 수 있는 모듈을 정의해 주어야 한다.
+
+```python
+# C:/doit/game/sound/__init__.py
+__all__ = ['echo']
+```
+
+- 여기에서 <code>\_\_all\_\_</code>이 의미하는 것은 sound 디렉터리에서 <code>*</code>를 사용하여 import할 경우, 이곳에 정의된 echo 모듈만 import된다는 의미이다.
+> 착각하기 쉬운데 <code>from game.sound.echo import *</code>은 <code>\_\_all\_\_</code>과 상관없이 import된다. 이렇게 <code>\_\_all\_\_</code>과 상관없이 무조건 import되는 경우는 <code>from a.b.c import *</code>에서 from의 마지막 항목인 c가 모듈인 때이다.
+
+- 위와 같이 <code>\_\_init\_\_.py</code> 파일을 변경한 후 예제를 수행하면 원하는 결과가 출력되는 것을 확인할 수 있다.
+
+```python
+>>> from game.sound import *
+Initializing game ...
+>>> echo.echo_test()
+echo
+```
+
+## relative 패키지
+
+- 만약 graphic 디렉터리의 render.py 모듈에서 sound 디렉터리의 echo.py 모듈을 사용하고 싶다면 어떻게 해야 할까? 다음과 같이 render.py를 수정하면 가능하다.
+
+```python
+# render.py
+from game.sound.echo import echo_test
+def render_test():
+    print("render")
+    echo_test()
+```
+
+- <code>from game.sound.echo import echo_test</code> 문장을 추가하여 echo_test 함수를 사용할 수 있도록 수정했다.
+- 이렇게 수정한 후 다음과 같이 실행해 보자.
+
+```python
+>>> from game.graphic.render import render_test
+Initializing game ...
+>>> render_test()
+render
+echo
+```
+
+- 이상 없이 잘 수행된다.
+- 위 예제처럼 <code>from game.sound.echo import echo_test</code>를 입력해 전체 경로를 사용하여 import할 수도 있지만, 다음과 같이 relative하게 import하는 것도 가능하다.
+
+```python
+# render.py
+from ..sound.echo import echo_test
+
+def render_test():
+    print("render")
+    echo_test()
+```
+
+- <code>from game.sound.echo import echo_test</code>를 <code>from ..sound.echo import echo_test</code>로 수정했다. 여기에서 <code>..</code>은 render.py 파일의 부모 디렉터리를 의미한다. 
+- 따라서 render.py 파일의 부모 디렉터리는 game이므로 위와 같은 import가 가능한 것이다.
+
+> render.py 파일의 현재 디렉터리는 graphic, 부모 디렉터리는 game이다.
+
+- relative한 접근자에는 다음과 같은 것이 있다.
+
+| 접근자           |설명|
+|---------------|----|
+| <code>..</code>|부모 디렉터리|
+| <code>.</code>|현재 디렉터리|
