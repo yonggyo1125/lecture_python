@@ -476,3 +476,192 @@ TypeError: __init__() missing 2 required positional arguments: 'first' and 'seco
 ```
 
 - <code>a = FourCal()</code>을 수행할 때 생성자 <code>__init__</code>가 호출되어 위와 같은 오류가 발생했다. 오류가 발생한 이유는 생성자의 매개변수 first와 second에 해당하는 값이 전달되지 않았기 때문이다.
+- 이 오류를 해결하려면 다음처럼 first와 second에 해당하는 값을 전달하여 객체를 생성해야 한다.
+
+```python
+>>> a = FourCal(4, 2)
+>>> 
+```
+
+- 위와 같이 수행하면 <code>__init__</code> 메서드의 매개변수에는 각각 다음과 같은 값이 전달된다.
+
+|매개변수|값|
+|---|----|
+|self|생성되는 객체|
+|first|4|
+|second|2|
+
+- <code>__init__</code> 메서드도 다른 메서드와 마찬가지로 첫 번째 매개변수 self에 생성되는 객체가 자동으로 전달된다는 점을 기억하자.
+- 따라서 <code>__init__</code> 메서드가 호출되면 setdata 메서드를 호출했을 때와 마찬가지로 first와 second라는 객체변수가 생성될 것이다.
+- 다음과 같이 객체변수의 값을 확인해 보자.
+
+```python
+>>> a = FourCal(4, 2)
+>>> a.first
+4
+>>> a.second
+2
+```
+
+- add나 div 등과 같은 메서드도 잘 동작하는지 확인해 보자.
+
+```python
+>>> a = FourCal(4, 2)
+>>> a.add()
+6
+>>> a.div()
+2.0
+```
+
+## 클래스의 상속
+
+- 상속(Inheritance)이란 ‘물려받다’라는 뜻으로, ‘재산을 상속받다’라고 할 때의 상속과 같은 의미이다.
+- 클래스에도 이 개념을 적용할 수 있다. 어떤 클래스를 만들 때 다른 클래스의 기능을 물려받을 수 있게 만드는 것이다. 
+- 상속 개념을 사용하여 우리가 만든 FourCal 클래스에
+  값을 구할 수 있는 기능을 추가해 보자.
+- FourCal 클래스를 상속하는 MoreFourCal 클래스는 다음과 같이 간단하게 만들 수 있다.
+
+```python
+>>> class MoreFourCal(FourCal):
+...     pass
+```
+
+- 클래스를 상속하기 위해서는 다음처럼 클래스 이름 뒤 괄호 안에 상속할 클래스 이름을 넣어주면 된다.
+
+```python
+class 클래스_이름(상속할_클래스_이름)
+```
+
+- MoreFourCal 클래스는 FourCal 클래스를 상속했으므로 FourCal 클래스의 모든 기능을 사용할 수 있다.
+
+```python
+>>> a = MoreFourCal(4, 2)
+>>> a.add()
+6
+>>> a.mul()
+8
+>>> a.sub()
+2
+>>> a.div()
+2
+```
+
+- 기능을 추가하여 MoreFourCal 클래스를 만들어 보자.
+
+```python
+>>> class MoreFourCal(FourCal):
+...     def pow(self):
+...         result = self.first ** self.second
+...         return result
+```
+
+- pass 문장은 삭제하고 위와 같이 두 수의 거듭제곱을 구할 수 있는 pow 메서드를 추가했다. 그리고 다음과 같이 pow 메서드를 수행해 보자.
+
+```python
+>>> a = MoreFourCal(4, 2)
+>>> a.pow()
+16
+>>> a.add()
+6
+```
+
+## 메서드 오버라이딩
+
+```python
+>>> a = FourCal(4, 0)
+>>> a.div()
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+    result = self.first / self.second
+ZeroDivisionError: division by zero
+```
+
+- FourCal 클래스의 객체 a에 값 4와 0을 지정하고 div 메서드를 호출하면 4를 0으로 나누려고 하므로 ZeroDivisionError 오류가 발생한다. 
+- 0으로 나눌 때 오류가 아닌 값 0을 리턴받고 싶다면?
+- 다음과 같이 FourCal 클래스를 상속하는 SafeFourCal 클래스를 만들어 보자.
+
+```python
+>>> class SafeFourCal(FourCal):
+...     def div(self):
+...         if self.second == 0:  # 나누는 값이 0인 경우 0을 리턴하도록 수정
+...             return 0
+...         else:
+...             return self.first / self.second
+```
+
+- FourCal 클래스에 있는 div 메서드를 동일한 이름으로 다시 작성했다. 
+- 이렇게 부모 클래스(상속한 클래스)에 있는 메서드를 동일한 이름으로 다시 만드는 것을 메서드 오버라이딩(method overriding)이라고 한다.
+- 이렇게 메서드를 오버라이딩하면 부모 클래스의 메서드 대신 오버라이딩한 메서드가 호출된다.
+
+```python
+>>> a = SafeFourCal(4, 0)
+>>> a.div()
+0
+```
+
+- FourCal 클래스와 달리 ZeroDivisionError가 발생하지 않고 의도한 대로 0이 리턴되는 것을 확인할 수 있다.
+
+## 클래스변수
+
+- 다음 클래스를 작성해 보자.
+
+```python
+>>> class Family:
+...     lastname = "김"
+```
+
+- Family 클래스에 선언한 lastname이 바로 클래스변수이다. 
+- 클래스변수는 클래스 안에 함수를 선언하는 것과 마찬가지로 클래스 안에 변수를 선언하여 생성한다.
+- 이제 Family 클래스를 다음과 같이 사용해 보자.
+
+```python
+>>> Family.lastname
+김
+```
+
+- 클래스변수는 위 예와 같이 <code>클래스_이름.클래스변수</code>로 사용할 수 있다.
+
+```python
+>>> a = Family()
+>>> b = Family()
+>>> a.lastname
+김
+>>> b.lastname
+김
+```
+
+- 만약 Family 클래스의 lastname을 "박"이라는 문자열로 바꾸면 어떻게 될까? 다음과 같이 확인해 보자.
+
+```python
+>>> Family.lastname = "박"
+>>> a.lastname
+박
+>>> b.lastname
+박
+```
+
+- 클래스변수의 값을 변경했더니 클래스로 만든 객체의 lastname 값도 모두 변경된다는 것을 확인할 수 있다.
+- 즉, 클래스변수는 객체변수와 달리 클래스로 만든 모든 객체에 공유된다는 특징이 있다.
+
+### 클래스변수와 동일한 이름의 객체변수를 생성하면?
+
+- 위의 예제에서 a.lastname을 다음처럼 변경하면 어떻게 될까?
+
+```python
+>>> a.lastname = "최"
+>>> a.lastname
+최
+```
+
+- 이렇게 하면 Family 클래스의 lastname이 바뀌는 것이 아니라 a 객체에 lastname이라는 객체변수가 새롭게 생성된다.
+- 즉, 객체변수는 클래스변수와 동일한 이름으로 생성할 수 있다.
+- a.lastname 객체변수를 생성하더라도 Family 클래스의 lastname과는 상관없다는 것을 다음과 같이 확인할 수 있다.
+
+```python
+>>> Family.lastname
+박
+>>> b.lastname
+박
+```
+
+- Family 클래스의 lastname 값은 변하지 않았다.
