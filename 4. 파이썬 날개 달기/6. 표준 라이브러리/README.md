@@ -224,3 +224,55 @@ time.struct_time(tm_year=2023, tm_mon=6, tm_mday=18, tm_hour=17, tm_min=1, tm_se
 >>> random.randint(1, 55)
 43
 ```
+
+- random 모듈을 사용해서 재미있는 함수를 하나 만들어 보자.
+
+```python
+# random_pop.py
+import random
+def random_pop(data):
+  number = random.randint(0, len(data) -1)
+  return data.pop(number)
+
+if __name__ == "__main__":
+    data = [1, 2, 3, 4, 5]
+    while data:
+        print(random_pop(data))
+```
+
+- 실행 결과
+
+```
+2 
+3 
+1 
+5 
+4
+```
+
+- 앞에서 만든 random_pop 함수는 리스트의 요소 중에서 무작위로 하나를 선택하여 꺼낸 다음 그 값을 리턴한다. 
+- 물론 꺼낸 요소는 pop 메서드에 의해 사라진다.
+- random_pop 함수는 random 모듈의 choice 함수를 사용하여 다음과 같이 좀 더 직관적으로 만들 수도 있다.
+
+```python
+def random_pop(data):
+    number = random.choice(data)
+    data.remove(number)
+    return number
+```
+
+- random.choice 함수는 입력으로 받은 리스트에서 무작위로 하나를 선택하여 리턴한다.
+- 리스트의 항목을 무작위로 섞고 싶을 때는 random.sample 함수를 사용하면 된다.
+
+```python
+>>> import random
+>>> data = [1, 2, 3, 4, 5]
+>>> random.sample(data, len(data))
+[5, 1, 3, 4, 2]
+```
+
+- andom.sample 함수에서 두 번째 인수인 <code>len(data)</code>는 무작위로 추출할 원소의 개수를 의미한다. 만약 <code>random.sample(data, 3)</code>과 같이 사용한다면 data 리스트에서 무작위로 3개를 추출하여 리턴할 것이다.
+
+## itertools.zip_longest
+
+- <code>itertools.zip_longest(*iterables, fillvalue=None)</code> 함수는 같은 개수의 자료형을 묶는 파이썬 내장 함수인 zip 함수와 똑같이 동작한다. 하지만 <code>itertools.zip_longest()</code> 함수는 전달한 반복 가능 객체(<code>*iterables</code>)의 길이가 서로 다르다면 긴 객체의 길이에 맞춰 fillvalue에 설정한 값을 짧은 객체에 채울 수 있다.
