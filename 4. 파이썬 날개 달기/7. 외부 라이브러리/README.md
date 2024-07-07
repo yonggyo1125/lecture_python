@@ -174,3 +174,100 @@ x, y = sympy.symbols('x y')
 ```
 
 - <code>sympy.Eq(a, b)</code>는 a와 b가 같다는 방정식이다. 여기서 사용한 Fraction은 유리수를 표현할 때 사용하는 표준 라이브러리로, 2/5 를 정확하게 계산하고자 사용했다.
+
+### fractions.Fraction으로 유리수 연산하기
+
+```python
+>>> from fractions import Fraction
+```
+
+- 유리수는 다음처럼 Fraction(분자, 분모) 형태로 만들 수 있다.
+
+```python
+>>> a = Fraction(1, 5)
+>>> a
+Fraction(1, 5)
+```
+
+- 또는 다음과 같이 Fraction('분자 / 분모')처럼 문자열로 만들 수도 있다.
+
+```python
+>>> a = Fraction('1/5')
+>>> a
+Fraction(1, 5)
+```
+
+- f라는 방정식을 세웠으므로 <code>sympy.solve(f)</code>로 x에 해당하는 값을 구할 수 있다.
+
+```python
+>>> result = sympy.solve(f)
+>>> result
+[4400]
+```
+
+- 방정식의 해는 여러 개일 수 있으므로 solve() 함수는 결괏값으로 리스트를 리턴한다.
+- 결과를 보면 시윤이가 원래 가진 돈이 4,400원이라는 것을 알 수 있다. 따라서 남은 돈은 다음처럼 가진 돈에서 1,760원을 빼면 된다.
+
+```python
+>>> remains = result[0] - 1760
+>>> remains
+2640
+```
+
+- 지금까지 내용을 종합한 풀이는 다음과 같다.
+
+```python
+# sympy_test.py
+from fractions import Fraction
+import sympy
+
+# 가지고 있던 돈을 x라고 하자.
+x = sympy.symbols("x")
+
+# 가지고 있던 돈의 2/5가 1760원이므로 방정식은 x * (2/5) = 1760 이다.
+f = sympy.Eq(x*Fraction('2/5'), 1760)
+
+# 방정식을 만족하는 값(result)을 구한다.
+result = sympy.solve(f) # 결과값은 리스트
+
+# 남은 돈은 다음과 같이 가지고 있던 돈에서 1760원을 빼면 된다.
+remains = result[0] - 1760
+
+print('남은 돈은 {}원 입니다.'.format(remains))
+```
+
+- 프로그램을 실행한 결과는 다음과 같다.
+
+```
+남은 돈은 2640원입니다.
+```
+
+### sympy 활용
+
+- x^2 = 1과 같은 2차 방ㅅ정식의 해를 구해보자.
+
+```python
+>>> import sympy
+>>> x = sympy.symbols("x")
+>>> f = sympy.Eq(x**2, 1)
+>>> sympy.solve(f)
+[-1, 1]
+```
+
+- 또한 다음과 같은 연립방정식의 해도 구할 수 있다.
+
+```
+x + y = 10
+x - y = 4
+```
+
+```python
+>>> import sympy
+>>> x,y = sympy.symbols('x y')
+>>> f1 = sympy.Eq(x+y, 10)
+>>> f2 = sympy.Eq(x-y, 4)
+>>> sympy.solve([f1, f2])
+{x: 7, y: 3}
+```
+
+- 미지수가 2개 이상이라면 결괏값이 리스트가 아닌 딕셔너리라는 것에 주의하자.
