@@ -132,4 +132,45 @@ pip install Faker
 |fake.text()| 임의의 문장(한글 임의의 문장은 <code>fake.catch_phrase()</code> 사용) |
 |fake.color_name()|색상명|
 
+## sympy
 
+- sympy는 방정식 기호(symbol)를 사용하게 해 주는 외부 라이브러리이다. 
+- 마찬가지로 pip을 이용하여 sympy를 설치하자.
+
+```
+pip install sympy
+```
+
+### sympy 사용해 보기
+
+- 시윤이는 가진 돈의  2/5로 학용품을 샀다고 한다. 이때 학용품을 사는 데 쓴 돈이 1,760원이라면 남은 돈은 어떻게 구하면 될까?
+- 이 문제는 연습장과 연필만 있으면 쉽게 구할 수 있는 일차방정식 문제이다. 파이썬으로는 다음처럼 sympy를 사용하면 방정식을 쉽게 풀 수 있다. 먼저 다음과 같이 fractions 모듈과 sympy 모듈이 필요하다.
+
+```python
+>>> from fractions import Fraction
+>>> import sympy
+```
+
+- 시윤이가 가진 돈을 x라고 하면 sympy 모듈을 사용하여 다음과 같이 표현할 수 있다.
+
+```python
+>>> x = sympy.symbols("x")
+```
+
+- sympy.symbols()는 x처럼 방정식에 사용하는 미지수를 나타내는 기호를 생성할 때 사용한다.
+
+### 여러 개의 기호 사용하기
+
+- x, y 2개의 미지수가 필요하다면 다음처럼 표현할 수 있다.
+
+```python
+x, y = sympy.symbols('x y')
+```
+
+- 시윤이가 가진 돈의 2/5 는 1,760원, 즉 일차방정식 x * (2/5) = 1760이므로 이를 코드로 표현하면 다음과 같다.
+
+```python
+>>> f = sympy.Eq(x*Fraction('2/5'), 1760)
+```
+
+- <code>sympy.Eq(a, b)</code>는 a와 b가 같다는 방정식이다. 여기서 사용한 Fraction은 유리수를 표현할 때 사용하는 표준 라이브러리로, 2/5 를 정확하게 계산하고자 사용했다.
