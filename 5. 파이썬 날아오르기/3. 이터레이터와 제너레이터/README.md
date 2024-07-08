@@ -152,3 +152,161 @@ if __name__ == "__main__":
 2
 1
 ```
+
+## 제너레이터란?
+
+- 제너레이터(generator)는 이터레이터를 생성해 주는 함수이다. 
+- 제너레이터로 생성한 객체는 이터레이터와 마찬가지로 next 함수 호출 시 그 값을 차례대로 얻을 수 있다. 
+- 이때 제너레이터에서는 차례대로 결과를 반환하고자 return 대신 yield 키워드를 사용한다.
+- 가장 간단한 제너레이터의 예를 살펴보자.
+
+```python
+>>> def mygen():
+...     yield 'a'
+...     yield 'b'
+...     yield 'c'
+...
+>>> g = mygen()
+```
+
+- mygen 함수는 yield 구문을 포함하므로 제너레이터이다. 제너레이터 객체는 <code>g = mygen()</code>과 같이 제너레이터 함수를 호출하여 만들 수 있다. type 명령어로 확인하면 g 객체는 제너레이터 타입의 객체라는 것을 알 수 있다.
+
+```python
+>>> type(g)
+<class 'generator'>
+```
+
+- 이제 다음과 같이 제너레이터의 값을 차례대로 얻어 보자.
+
+```python
+>>> next(g)
+'a'
+```
+
+- 이처럼 제너레이터 객체 g로 next 함수를 실행하면 mygen 함수의 첫 번째 yield 문에 따라 'a' 값을 리턴한다. 
+- 여기서 재미있는 점은 제너레이터는 yield라는 문장을 만나면 그 값을 리턴하되 현재 상태를 그대로 기억한다는 것이다. 
+- 이것은 마치 음악을 재생하다가 일시 정지 버튼으로 멈춘 것과 비슷한 모양새이다.
+- 다시 next() 함수를 실행해 보자.
+
+```python
+>>> next(g)
+'b'
+```
+
+- 이번에는 두 번째 yield 문에 따라 'b' 값을 리턴한다. 계속해서 next 함수를 호출하면 다음과 같은 결과가 출력될 것이다.
+
+```python
+>>> next(g)
+'c'
+>>> next(g)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+StopIteration
+```
+
+## 제너레이터 표현식
+
+```python
+# generator.py
+def mygen():
+    for i in range(1, 1000):
+        result = i * i
+        yield result
+
+gen = mygen()
+
+print(next(gen))
+print(next(gen))
+print(next(gen))
+```
+
+- mygen 함수는 1부터 1,000까지 각각의 숫자를 제곱한 값을 순서대로 리턴하는 제너레이터이다. 이 예제를 실행하면 총 3번의 next를 호출하므로 다음과 같은 결과가 나올 것이다.
+
+```
+1
+4
+9
+```
+
+- 제너레이터는 def를 이용한 함수로 만들 수 있지만, 다음과 같이 튜플 표현식으로 좀 더 간단하게 만들 수도 있다.
+
+```python
+gen = (i * i for i in range(1, 1000))
+```
+
+- 이 표현식은 mygen 함수로 만든 제너레이터와 완전히 똑같이 기능한다. 여기서 사용한 표현식은 리스트 컴프리헨션(list comprehension) 구문과 비슷하다. 
+- 다만 리스트 대신 튜플을 이용한 점이 다르다. 이와 같은 표현식을 ‘제너레이터 표현식(generator expression)’이라고 부른다.
+
+## 제너레이터와 이터레이터
+
+- 지금까지 살펴본 제너레이터는 이터레이터와 서로 상당히 비슷하다는 것을 알 수 있다. 클래스를 이용해 이터레이터를 작성하면 좀 더 복잡한 행동을 구현할 수 있다.  이와 달리 제너레이터를 이용하면 간단하게 이터레이터를 만들 수 있다. 따라서 이터레이터의 성격에 따라 클래스로 만들 것인지, 제너레이터로 만들 것인지를 선택해야 한다.
+- 간단한 경우라면 제너레이터 함수나 제너레이터 표현식을 사용하는 것이 가독성이나 유지 보수 측면에서 유리하다. 다음은 <code>(i * i for i in range(1, 1000))</code> 제너레이터를 이터레이터 클래스로 구현한 예이다.
+
+```python
+class MyIterator:
+    def __init__(self):
+        self.data = 1
+    
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        result = self.data * self.data
+        self.data += 1
+        if self.data >= 1000:
+            raise StopIteration
+        return result
+```
+
+- 이렇게 간단한 경우라면 이터레이터 클래스보다는 제너레이터 표현식을 사용하는 것이 훨씬 간편하고 이해하기 쉽다.
+
+## 제너레이터 활용하기
+
+```python
+# generator2.py
+import time
+
+def longtime_job():
+    print("job start")
+    time.sleep(1)  # 1초 지연
+    return "done"
+
+list_job = [longtime_job() for i in range(5)]
+print(list_job[0])
+```
+
+- longtime_job 함수는 총 실행 시간이 1초이다. 이 예제는 longtime_job 함수를 5번 실행해 리스트에 그 결괏값을 담고 그 첫 번째 결괏값을 호출하는 예제이다. 실행하면 다음과 같은 결과를 출력한다.
+
+```
+job start
+job start
+job start
+job start
+job start
+done
+```
+
+- 리스트를 만들 때 이미 5개의 함수를 모두 실행하므로 5초의 시간이 소요되고 이와 같은 결과를 출력한다.
+- 이번에는 이 예제에 제너레이터를 적용해 보자. 프로그램을 다음과 같이 수정하자.
+
+```python
+# generator2.py
+import time
+
+def longtime_job():
+    print("job start")
+    time.sleep(1)
+    return "done"
+
+list_job = (longtime_job() for i in range(5))
+print(next(list_job))
+```
+- <code>\[longtime_job() for i in range(5)\]</code> 코드를 제너레이터 표현식<code>(longtime_job() for i in range(5))</code>으로 바꾸었을 뿐이다. 그런데 실행 시 1초의 시간만 소요되고 출력되는 결과도 전혀 다르다.
+
+```
+job start
+done
+```
+
+- 왜냐하면 제너레이터 표현식으로 인해 longtime_job() 함수가 5회가 아닌 1회만 호출되기 때문이다. 이러한 방식을 느긋한 계산법(lazy evaluation)이라고 부른다. 
+- 시간이 오래 걸리는 작업을 한꺼번에 처리하기보다는 필요한 경우에만 호출하여 사용할 때 제너레이터는 매우 유용하다.
