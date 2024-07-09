@@ -88,3 +88,14 @@ ca*t
 |<code>ca*t</code>|ct|Yes|"a"가 0번 반복되어 매치|
 |<code>ca*t</code>|cat|Yes|"a"가 0번 이상 반복되어 매치(1번 반복)|
 |<code>ca*t</code>|caaat|Yes|"a"가 0번 이상 반복되어 매치(3번 반복)|
+
+
+### + 문자
+
+- 반복을 나타내는 또 다른 메타 문자로 <code>+</code>가 있다. <code>+</code>는 최소 1번 이상 반복될 때 사용한다. 즉, <code>*</code>가 반복 횟수가 0부터라면 <code>+</code>는 반복 횟수가 1부터인 것이다.
+
+- 다음 정규식을 살펴보자.
+
+```python
+ca+t
+```
