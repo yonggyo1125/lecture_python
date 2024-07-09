@@ -256,5 +256,122 @@ http:
 ```
 
 - 위는 ‘파일_이름 + . + 확장자’를 나타내는 정규식이다. 이 정규식은 foo.bar, autoexec.bat, sendmail.cf 같은 형식의 파일과 매치될 것이다.
-- 
+- 이 정규식에 ‘확장자가 bat인 파일은 제외해야 한다’라는 조건을 추가해 보자. 가장 먼저 생각할 수 있는 정규식은 다음과 같다.
 
+```
+.*[.][^b].*$
+```
+
+- 이 정규식은 확장자가 b라는 문자로 시작하면 안 된다는 의미이다. 하지만 이 정규식은 foo.bar라는 파일마저 걸러 낸다. 정규식을 다음과 같이 수정해 보자.
+
+```
+.*[.]([^b]..|.[^a].|..[^t])$
+```
+
+- 이 정규식은 <code>|</code> 메타 문자를 사용하여 확장자의 첫 번째 문자가 b가 아니거나, 두 번째 문자가 a가 아니거나, 세 번째 문자가 t가 아닌 경우를 의미한다. 이 정규식에 의하여 foo.bar는 제외되지 않고 autoexec.bat은 제외되어 만족스러운 결과를 리턴해 준다. 하지만 이 정규식은 아쉽게도 sendmail.cf처럼 확장자의 문자 개수가 2개인 케이스를 포함하지 못하는 오동작을 하기 시작한다.
+
+- 따라서 다음과 같이 바꾸어야 한다.
+
+```
+.*[.]([^b].?.?|.[^a]?.?|..?[^t]?)$
+```
+
+- 확장자의 문자 개수가 2개여도 통과되는 정규식이 만들어졌다. 하지만 정규식은 점점 더 복잡해지고 이해하기 어려워진다.
+- 그런데 여기에서 bat 파일말고 exe 파일도 제외하라는 조건이 추가로 생긴다면 어떻게 될까? 이 모든 조건을 만족하는 정규식을 구현하려면 패턴은 더욱 복잡해질 것이다.
+- 이런 상황에서 사용할 수 있는 것이 바로 부정형 전방 탐색이다.
+
+```
+.*[.](?!bat$).*$
+```
+
+- 확장자가 bat가 아닌 경우에만 통과된다는 의미이다. bat 문자열이 있는지 조사하는 과정에서 문자열이 소비되지 않으므로 bat가 아니라고 판단되면 그 이후 정규식 매치가 진행된다.
+- exe 역시 제외하라는 조건이 추가되더라도 다음과 같이 간단히 표현할 수 있다.
+
+```
+.*[.](?!bat$|exe$).*$
+```
+
+## 문자열 바꾸기
+
+- sub 메서드를 사용하면 정규식과 매치되는 부분을 다른 문자로 쉽게 바꿀 수 있다. 다음 예를 살펴보자.
+
+```python
+>>> p = re.compile('(blue|white|red)')
+>>> p.sub('colur', 'blue socks and red shoes')
+'colour socks and colour shoes'
+```
+
+- sub 메서드의 첫 번째 인수는 "바꿀 문자열(replacement)"이 되고, 두 번째 인수는 "대상 문자열"이 된다. 이 예에서 볼 수 있듯이 blue 또는 white 또는 red라는 문자열이 colour라는 문자열로 바뀌는 것을 확인할 수 있다.
+- 그런데 딱 한 번만 바꾸고 싶은 경우도 있다. 이렇게 바꾸기 횟수를 제어하려면 다음과 같이 세 번째 인수에 count 값을 설정하면 된다.
+
+```python
+>>> p.sub('colour', 'blue socks and red shoes', count=1)
+'colour socks and red shoes'
+```
+
+- 처음 일치하는 blue만 colour라는 문자열로 한 번만 바꾸기가 실행되는 것을 알 수 있다.
+
+### sub 메서드와 유사한 subn 메서드
+
+- subn 역시 sub와 동일한 기능을 하지만, 반환 결과를 튜플로 리턴한다는 차이가 있다. 리턴된 튜플의 첫 번째 요소는 변경된 문자열, 두 번째 요소는 바꾸기가 발생한 횟수이다.
+
+```python
+>>> p = re.compile('(blue|white|red)')
+>>> p.subn( 'colour', 'blue socks and red shoes')
+('colour socks and colour shoes', 2)
+```
+
+### sub 메서드 사용 시 참조 구문 사용하기
+
+```python
+>>> p = re.compile(r"(?P<name>\w+)\s+(?P<phone>(\d+)[-]\d+[-]\d+)")
+>>> print(p.sub("\g<phone> \g<name>", "park 010-1234-1234"))
+010-1234-1234 park
+```
+
+- 이 예는 <code>이름 + 전화번호</code>의 문자열을 <code>전화번호 + 이름</code>으로 바꾼다. sub의 바꿀 문자열 부분에 <code>\g<그룹_이름></code>을 사용하면 정규식의 그룹 이름을 참조할 수 있게 된다.
+
+- 다음과 같이 그룹 이름 대신 참조 번호를 사용해도 마찬가지 결과를 리턴해 준다.
+
+```python
+>>> p = re.compile(r"(?P<name>\w+)\s+(?P<phone>(\d+)[-]\d+[-]\d+)")
+>>> print(p.sub("\g<2> \g<1>", "park 010-1234-1234"))
+010-1234-1234 park
+```
+
+### sub 메서드의 매개변수로 함수 넣기
+
+```python
+>>> def hexrepl(match):
+...     value = int(match.group())
+...     return hex(value)
+...
+>>> p = re.compile(r'\d+')
+>>> p.sub(hexrepl, 'Call 65490 for printing, 49152 for user code.')
+'Call 0xffd2 for printing, 0xc000 for user code.'
+```
+
+- hexrepl은 match 객체를 입력으로 받아 16진수로 변환하여 리턴해 주는 함수이다. sub의 첫 번째 인수로 함수를 사용할 경우, 해당 함수의 첫 번째 매개변수에는 정규식과 매치된 match 객체가 입력된다. 그리고 매치되는 문자열은 함수의 리턴값으로 바뀌게 된다.
+
+## greedy와 non-greedy
+
+```python
+>>> s = '<html><head><title>Title</title>'
+>>> len(s)
+32
+>>> print(re.match('<.*>', s).span())
+(0, 32)
+>>> print(re.match('<.*>', s).group())
+<html><head><title>Title</title>
+```
+
+- <code><.*></code> 정규식의 매치 결과로 <code>\<html\></code> 문자열을 리턴해 주기를 기대했을 것이다. 하지만 * 메타 문자는 매우 탐욕스러워서 매치할 수 있는 최대한의 문자열인 <code>\<html\>\<head\>\<title\>Title\</title\>\</code\> 문자열을 모두 소비해 버렸다. 
+-  어떻게 하면 이 탐욕스러움을 제한하고 <code>\<html\></code> 문자열까지만 소비하도록 막을 수 있을까?
+- 다음과 같이 non-greedy 문자인 <code>?</code>를 사용하면 <code>*</code>의 탐욕을 제한할 수 있다.
+
+```python
+>>> print(re.match('<.*?>', s).group())
+<html>
+```
+
+- non-greedy 문자인 <code>?</code>는 <code>*?</code>, <code>+?</code>, <code>??</code>, <code>{m,n}?</code>와 같이 사용할 수 있다. 되도록 최소한으로 반복을 수행하도록 도와주는 역할을 한다.
