@@ -131,7 +131,7 @@ if __name__ == "__main__":
     print(sub(4, 2))
 ```
 
-- <code>if \_\_name\_\_ == "__main__"</code>을 사용하면 <code>C:\doit>python mod1.py</code>처럼 직접 이 파일을 실행했을 때는 <code>\_\_name\_\_ == "\_\_main\_\_"</code> 이 참이 되어 if 문 다음 문장이 수행된다. 
+- <code>if \_\_name\_\_ == "\_\_main\_\_"</code>을 사용하면 <code>C:\doit>python mod1.py</code>처럼 직접 이 파일을 실행했을 때는 <code>\_\_name\_\_ == "\_\_main\_\_"</code> 이 참이 되어 if 문 다음 문장이 수행된다. 
 - 이와 반대로 대화형 인터프리터나 다른 파일에서 이 모듈을 불러 사용할 때는 <code>\_\_name\_\_ == "\_\_main\_\_"</code>이 거짓이 되어 if 문 다음 문장이 수행되지 않는다.
 
 ```python
