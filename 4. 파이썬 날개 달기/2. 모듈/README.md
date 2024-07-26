@@ -80,7 +80,7 @@ from mod1 import *
 - <code>from mod1 import *</code>은 mod1 모듈의 모든 함수를 불러와 사용하겠다는 뜻이다.
 - mod1.py 파일에는 함수가 2개밖에 없으므로 위 2가지 방법은 동일하게 적용된다.
 
-## if __name__ == "__main__":의 의미
+## if \_\_name\_\_ == "\_\_main\_\_":의 의미
 
 - 이번에는 mod1.py 파일을 다음과 같이 수정해 보자.
 
