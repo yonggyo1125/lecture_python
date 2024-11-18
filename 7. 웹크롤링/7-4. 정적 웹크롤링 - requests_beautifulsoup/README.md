@@ -57,7 +57,7 @@ pip install beautifulsoup4
 from bs4 import BeautifulSoup as bs
 
 # html을 잘 정리된 형태로 변환
-html = bs(html_text, 'html.parser')
+soup = bs(html_text, 'html.parser')
 ```
 
 
@@ -96,7 +96,7 @@ soup.find(attrs = {'id':'zara'})
 
 # 태그 이름과 속성으로 찾기
 soup.find('p', class_='para')
-soup.find('div', {'id' = 'zara'})
+soup.find('div', {'id':'zara'})
 ```
 
 #### select( ), select_one( ) 함수
