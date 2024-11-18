@@ -108,7 +108,7 @@ soup.find('div', {'id':'zara'})
 # a태그의 class 속성명이 news_tit인 태그 
 soup.select_one('a.news_tit')
 
-soup.select('a.news_tit')
+titles = soup.select('a.news_tit')
 
 for i in titles: 
     title = i.get_text() print(title)
