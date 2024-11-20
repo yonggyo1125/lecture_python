@@ -98,7 +98,7 @@ for i in news_titles:
 ```python
 #step8.뉴스 썸네일 이미지 추출
 
-news_content_div = html.select(".news_contents")
+news_content_div = soup.select(".news_contents")
 
 news_thumbnail = [thumbnail.select_one(".thumb") for thumbnail in news_content_div]
 
