@@ -180,7 +180,7 @@ ab?c
 |<code>ab?c</code>|ac|Yes|"b"가 0번 사용되어 매치|
 
 - 즉, b 문자가 있거나 없거나 둘 다 매치되는 경우이다.
-- <code>*</code>, <code>+</code>, <code>?</code> 메타 문자는 모두 <code>{m, n}</code> 형태로 고쳐 쓰는 것이 가능하지만, 이해하기 쉽고 표현도 간결한 <code>*</code>, <code>+</code>, <code>?</code> 메타 문자를 사용하는 것이 좋다.
+- `*`, <code>+</code>, <code>?</code> 메타 문자는 모두 <code>{m, n}</code> 형태로 고쳐 쓰는 것이 가능하지만, 이해하기 쉽고 표현도 간결한 <code>*</code>, <code>+</code>, <code>?</code> 메타 문자를 사용하는 것이 좋다.
 - 지금까지 매우 기초적인 정규 표현식에 대해 알아보았다. 알아야 할 것들이 아직 많이 남아 있지만, 그에 앞서 파이썬으로 정규 표현식을 어떻게 사용할 수 있는지 알아보자.
 
 ## 파이썬에서 정규 표현식을 지원하는 re 모듈
@@ -382,7 +382,7 @@ else:
 None
 ```
 
-- 정규식이 <code>a.b</code>인 경우 문자열 <code>a\\nb</code>는 매치되지 않는다는 것을 알 수 있다. <code>\n</code>은 <code>.</code> 메타 문자와 매치되지 않기 때문이다. <code>\\n</code> 문자와도 매치되게 하려면 다음과 같이 <code>re.DOTALL</code> 옵션을 사용해야 한다.
+- 정규식이 <code>a.b</code>인 경우 문자열 <code>a\\nb</code>는 매치되지 않는다는 것을 알 수 있다. `\n`은 <code>.</code> 메타 문자와 매치되지 않기 때문이다. `\n` 문자와도 매치되게 하려면 다음과 같이 <code>re.DOTALL</code> 옵션을 사용해야 한다.
 
 ```python
 >>> p = re.compile('a.b', re.DOTALL)
