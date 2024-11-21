@@ -382,7 +382,7 @@ else:
 None
 ```
 
-- 정규식이 <code>a.b</code>인 경우 문자열 <code>a\nb</code>는 매치되지 않는다는 것을 알 수 있다. <code>\n</code>은 <code>.</code> 메타 문자와 매치되지 않기 때문이다. <code>\n</code> 문자와도 매치되게 하려면 다음과 같이 <code>re.DOTALL</code> 옵션을 사용해야 한다.
+- 정규식이 <code>a.b</code>인 경우 문자열 <code>a\\nb</code>는 매치되지 않는다는 것을 알 수 있다. <code>\n</code>은 <code>.</code> 메타 문자와 매치되지 않기 때문이다. <code>\\n</code> 문자와도 매치되게 하려면 다음과 같이 <code>re.DOTALL</code> 옵션을 사용해야 한다.
 
 ```python
 >>> p = re.compile('a.b', re.DOTALL)
