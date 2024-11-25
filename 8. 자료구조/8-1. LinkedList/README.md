@@ -115,3 +115,21 @@ node.next = Node(4)
 - 1 추가할 노드를 생성한다.
 - 2 추가할 노드의 next가 head를 가리키게 한다.
 - 3 head를 추가한 노드로 옮긴다.
+
+> 위의 규칙에 따라 위에서 만든 연결 리스트의 첫 노드 앞에 0을 추가해 보자.
+
+```python
+node = Node(0)
+node.next = head
+head = node
+```
+
+- (1)과 (2) 과정을 실행했을 때의 상태는 아래와 같다.
+
+![image](https://wikidocs.net/images/page/224937/fig-022.png)
+
+- 최종 상태는 아래 그림과 같다.
+
+![image](https://wikidocs.net/images/page/224937/fig-023.png)
+
+- 이처럼 연결 리스트는 노드 간의 참조만 변경하여 노드를 추가하거나 삭제할 수 있는 효율적인 자료 구조다. 이를 활용하면 동적으로 변하는 데이터를 효율적으로 관리할 수 있다.
