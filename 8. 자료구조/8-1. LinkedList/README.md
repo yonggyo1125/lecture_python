@@ -133,3 +133,82 @@ head = node
 ![image](https://wikidocs.net/images/page/224937/fig-023.png)
 
 - 이처럼 연결 리스트는 노드 간의 참조만 변경하여 노드를 추가하거나 삭제할 수 있는 효율적인 자료 구조다. 이를 활용하면 동적으로 변하는 데이터를 효율적으로 관리할 수 있다.
+
+# 연결 리스트 클래스를 만들고, 노드 추가하기
+
+- 앞서 간단하게 연결 리스트를 만들어서, 노드를 처음과 끝에 추가하고 출력하는 방법을 살펴봤다. 노드를 검색하거나 꺼내는 것(pop)도 생각보다 어렵지 않아 보인다. 단일 연결 리스트 클래스를 만들고, 관련 메서드를 하나씩 만들어 보자.
+- 구현할 단일 연결 리스트의 메서드는 아래와 같다. 이름은 리스트와 데크(deque)의 메서드 이름을 참조했다.
+
+  - **appendleft(x)**: 연결 리스트의 처음에 x를 추가한다.
+  - **append(x)**: 연결 리스트의 끝 x를 추가한다.
+  - **popleft()**: 연결 리스트에서 첫 노드의 값을 반환하고, 노드는 삭제한다.
+  - **pop()**: 연결 리스트에서 마지막 노드의 값을 반환하고, 노드는 삭제한다.
+  - **insert(i, x)**: 연결 리스트의 i번 인덱스에 x를 추가한다.
+  - **remove(x)**: 연결 리스트에서 값이 x인 노드를 찾아 삭제한다.
+  - **reverse()**: 연결 리스트를 제자리에서 순서를 뒤집는다.
+
+- 위의 메서드 외에 연결 리스트를 출력하고, 길이를 반환하고, 값을 검색하는 메서드도 만든다. 이들은 클래스의 특수 메소드로 구현한다.
+  - **\_\_len\_\_**: len() 함수를 사용할 때 연결 리스트의 길이를 반환한다.
+  - **\_\_contains\_\_**: 연산자 in과 not in을 사용할 때 연결 리스트 내의 값을 검사하여 True, False를 반환한다.
+  - **\_\_str\_\_**: str()과 print() 함수를 사용할 때 출력할 문자열을 반환한다.
+
+## 연결 리스트 클래스 만들기
+
+> 앞서 만든 노드 클래스는 그대로 사용하다. 연결 리스트 클래스의 초기화 메서드에서는 연결 리스트에 접근하기 위해 필요한 head 속성과 연결 리스트의 길이를 저장할 length 속성을 초기화 한다
+
+```python
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.next = None
+
+class LinkedList:
+    def __init__(self):
+        self.head = None
+        self.length = 0
+
+    def __len__(self):
+        return self.lenth
+```
+
+## appendleft() 메서드 만들기
+
+![image](https://wikidocs.net/images/page/224937/fig-021_.png)
+
+> 위 그림은 이미 연결 리스트에 노드가 있을 때, 즉 `head`가 `None` 이 아닐 때 노드를 연결 리스트의 처음에 추가하는 과정을 나타낸 것이다. 따라서 앞서 만든 코드에 `head`를 검사하여 `None`이면 생성한 노드를 `head`에 할당하는 코드만 추가하면 된다.
+
+- head가 None이면 생성한 노드를 head에 할당한다.
+- head가 None이 아니면
+  - 1 노드를 생성한다.
+  - 2 노드의 next에 head를 할당한다.
+  - 3 head를 새로 만든 노드로 옮긴다.
+- 연결 리스트의 길이를 증가시킨다.
+
+```python
+class Node:
+    ...
+
+class LinkedList:
+    def __init__(self):
+        ...
+
+    def __len__(self):
+        ...
+
+    def appendleft(self, data):
+        if self.head is None:
+            self.head = Node(data)
+        else:
+            node = Node(data)
+            node.next = self.head
+            self.head = node
+        self.length += 1
+
+if __name__ == "__main__":
+    my_list = LinkedList()
+    print(f"연결 리스트 생성.  연결 리스트의 길이 = {len(my_list)}")
+    print()
+    for i in range(4):
+        my_list.appendleft(i)
+        print(f"{i}을(를) 추가.  연결 리스트의 길이 = {len(my_list)}")
+```
