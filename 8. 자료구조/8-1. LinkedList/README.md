@@ -212,3 +212,87 @@ if __name__ == "__main__":
         my_list.appendleft(i)
         print(f"{i}을(를) 추가.  연결 리스트의 길이 = {len(my_list)}")
 ```
+
+- 실행 결과
+
+```
+연결 리스트 생성.  연결 리스트의 길이 = 0
+
+0을(를) 추가.  연결 리스트의 길이 = 1
+1을(를) 추가.  연결 리스트의 길이 = 2
+2을(를) 추가.  연결 리스트의 길이 = 3
+3을(를) 추가.  연결 리스트의 길이 = 4
+```
+
+- 0을 추가했을 때
+
+![image](https://wikidocs.net/images/page/225002/fig-024.png)
+
+- 3까지 모두 추가했을 때
+
+![image)(https://wikidocs.net/images/page/225002/fig-025.png)
+
+## append 메서드 만들기
+
+![image](https://wikidocs.net/images/page/225002/fig-026.png)
+
+- `head`가 `None`이면 생성한 노드를 `head`에 할당한다.
+- `head`가 `None`이 아니면
+  - (1) 임시 노드를 만들어 마지막 노드까지 이동한다.
+  - (2) 새 노드를 만든다.
+  - (3) 임시 노드의 `next`에 노드를 할당한다.
+- 연결 리스트의 길이를 증가시킨다.
+- 위의 과정대로 구현한 코드는 아래와 같습니다.
+
+```python
+class Node:
+    def __init__(self, data):
+        ...
+
+
+class LinkedList:
+    def __init__(self):
+        ...
+
+    def __len__(self):
+        ...
+
+    def appendleft(self, data):
+        ...
+
+    def append(self, data):
+        if self.head is None:
+            self.head = Node(data)
+        else:
+            node = self.head
+            while node.next is not None:
+                node = node.next
+            node.next = Node(data)
+        self.length += 1
+
+
+if __name__ == "__main__":
+    my_list = LinkedList()
+    print(f"연결 리스트 생성.  연결 리스트의 길이 = {len(my_list)}")
+    print()
+    for i in range(4):
+        my_list.append(i)
+        print(f"{i}을(를) 추가.  연결 리스트의 길이 = {len(my_list)}")
+```
+
+- 실행 결과
+
+```
+연결 리스트 생성.  연결 리스트의 길이 = 0
+
+0을(를) 추가.  연결 리스트의 길이 = 1
+1을(를) 추가.  연결 리스트의 길이 = 2
+2을(를) 추가.  연결 리스트의 길이 = 3
+3을(를) 추가.  연결 리스트의 길이 = 4
+```
+
+- 오류없이 실행되지만, 그냥 결과만 봐서는 `appendleft()` 메서드와 차이점이 보이지 않는다. Python Tutor에서 실행한 결과를 보면 아래와 같다.
+
+![image](https://wikidocs.net/images/page/225002/fig-027.png)
+
+- 그림을 보면, `appendleft()`와 data의 순서가 반대인 것을 확인할 수 있다.
