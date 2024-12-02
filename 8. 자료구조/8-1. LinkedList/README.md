@@ -296,3 +296,11 @@ if __name__ == "__main__":
 ![image](https://wikidocs.net/images/page/225002/fig-027.png)
 
 - 그림을 보면, `appendleft()`와 data의 순서가 반대인 것을 확인할 수 있다.
+
+# 연결 리스트의 상태를 출력하고, 값을 검색하기
+
+## 연결 리스트 상태 출력하기
+
+- 간단한 연결 리스트 만들기에서는 임시 노드를 만들고 `head`부터 마지막 노드까지 이동하면 `print` 함수로 값을 출력했다. 여기서는 특수 메서드인 \_\_str\_\_를 구현하여 `print()`함수로 연결 리스트의 상태를 출력한다.
+
+![image](https://wikidocs.net/images/page/224937/fig-019_.png)
