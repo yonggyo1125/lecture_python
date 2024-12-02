@@ -304,3 +304,145 @@ if __name__ == "__main__":
 - 간단한 연결 리스트 만들기에서는 임시 노드를 만들고 `head`부터 마지막 노드까지 이동하면 `print` 함수로 값을 출력했다. 여기서는 특수 메서드인 \_\_str\_\_를 구현하여 `print()`함수로 연결 리스트의 상태를 출력한다.
 
 ![image](https://wikidocs.net/images/page/224937/fig-019_.png)
+
+- 연결 리스트의 상태를 나타낼 문자열 변수를 만든다.
+- 임시 노드가 None이 아닐 동안 계속 이동하면서 아래 과정을 반복한다.
+  - 현재 노드의 값을 문자열로 변환하여 문자열 변수에 더한다.
+  - 임시 노드를 다음 노드로 옮긴다. -문자열을 반환한다.
+
+### 코드
+
+```python
+class Node:
+    def __init__(self, data):
+        ...
+
+
+class LinkedList:
+    def __init__(self):
+        ...
+
+    def __len__(self):
+        ...
+
+    def appendleft(self, data):
+        ...
+
+    def append(self, data):
+        ...
+
+    def __str__(self):
+        if self.head is None:
+            return "Linked list is empty!"
+        res = "Head"
+        node = self.head
+        while node is not None:
+            res += " → " + str(node.data)
+            node = node.next
+        return res
+
+
+if __name__ == "__main__":
+    my_list = LinkedList()
+    print(f"연결 리스트 생성.  연결 리스트의 길이 = {len(my_list)}")
+    print(my_list)
+    print()
+    for i in range(4):
+        if i % 2:
+            my_list.append(i)
+        else:
+            my_list.appendleft(i)
+        print(f"{i}을(를) 추가.  연결 리스트의 길이 = {len(my_list)}")
+        print(my_list)
+        print()
+```
+
+### 실행 결과
+
+```
+연결 리스트 생성.  연결 리스트의 길이 = 0
+Linked list is empty!
+
+0을(를) 추가.  연결 리스트의 길이 = 1
+Head → 0
+
+1을(를) 추가.  연결 리스트의 길이 = 2
+Head → 0 → 1
+
+2을(를) 추가.  연결 리스트의 길이 = 3
+Head → 2 → 0 → 1
+
+3을(를) 추가.  연결 리스트의 길이 = 4
+Head → 2 → 0 → 1 → 3
+```
+
+### 값을 검색하기
+
+- 값을 검색하는 것은 `\_\_str\_\_` 메서드에서 값을 출력하는 부분을 삭제하고, 값을 비교하여 찾는 값이 있으면 True를 반환하도록 수정한다. 물론 찾는 값이 없으면 False를 반환한다.
+
+- `head`가 `None`이면 False를 반환한다.
+- 임시 노드가 None이 아닐 동안 계속 이동하면서 아래 과정을 반복한다.
+- 현재 노드의 값이 찾는 값이면 True를 반환한다.
+- 임시 노드를 다음 노드로 옮긴다.
+- False를 반환한다.
+
+```python
+class Node:
+    def __init__(self, data):
+        ...
+
+
+class LinkedList:
+    def __init__(self):
+        ...
+
+    def __len__(self):
+        ...
+
+    def appendleft(self, data):
+        ...
+
+    def append(self, data):
+        ...
+
+    def __str__(self):
+        ...
+
+    def __contains__(self, target):
+        if self.head is None:
+            return False
+        node = self.head
+        while node is not None:
+            if node.data == target:
+                return True
+            node = node.next
+        return False
+
+if __name__ == "__main__":
+    import random
+    data = list(range(10, 20))
+    random.shuffle(data)
+    my_list = LinkedList()
+    for i in data:
+        my_list.append(i)
+    print(f"연결 리스트의 상태\n{my_list}")
+    print()
+    for _ in range(4):
+        i = random.randint(5, 25)
+        if i in my_list:
+            print(f"{i}는(은) 연결 리스트에 있습니다.")
+        else:
+            print(f"{i}는(은) 연결 리스트에 없습니다.")
+```
+
+### 실행 결과
+
+```
+연결 리스트의 상태
+Head → 11 → 17 → 12 → 14 → 18 → 15 → 13 → 10 → 19 → 16
+
+19는(은) 연결 리스트에 있습니다.
+23는(은) 연결 리스트에 없습니다.
+20는(은) 연결 리스트에 없습니다.
+17는(은) 연결 리스트에 있습니다.
+```
